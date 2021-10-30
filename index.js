@@ -54,20 +54,20 @@ async function run() {
             })
         });
 
-        // add myOrder
+        // add myOrder 
         app.post('/myOrder', async (req, res) => {
             const result = await orderCollection.insertOne(req.body);
             res.send(result)
         })
 
-        // add manageOrders
+        // get manageOrders
         app.get("/manageOrders", async (req, res) => {
             const cursor = orderCollection.find({})
             const services = await cursor.toArray();
             res.send(services);
         });
 
-        // add myOrder
+        // get myOrder
         app.get("/myOrder/:email", async (req, res) => {
             const email = req.params.email;
             const result = await orderCollection.find({ email }).toArray();
