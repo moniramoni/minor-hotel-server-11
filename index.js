@@ -74,6 +74,58 @@ async function run() {
             res.send(result);
         });
 
+        // delete myOrders
+        app.delete('/deleteMyOrders/:id', async (req, res) => {
+            console.log('id: ', req.params.id)
+            const result = await orderCollection.deleteOne({_id:ObjectId(req.params.id)})
+            res.send(result)
+        })
+        // delete manageOrders
+        app.delete('/deleteManageOrders/:id', async (req, res) => {
+            console.log('id: ', req.params.id)
+            const result = await orderCollection.deleteOne({_id:ObjectId(req.params.id)})
+            res.send(result)
+        })
+
+           //Update booked Status
+        //    app.put('/deleteManageOrders/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     const updatedStatus = req.body;
+        //     const filter = { _id: ObjectId(id) };
+        //     const options = { upsert: true };
+        //     const updateDoc = {
+        //         $set: {
+        //             status: updatedStatus.status
+        //         },
+        //     };
+        //     const result = await orderCollection.updateOne(filter, updateDoc, options)
+        //     console.log('updating', id)
+        //     res.json(result)
+        // })
+
+
+        // new Update Approve Status
+        app.put("/manageOrderUpdate/:id", async (req, res) => {
+            const updateId = req.params.id;
+            const updatedStatus = req.body;
+            console.log(updatedStatus);
+            const filter = { _id: ObjectId(updateId) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    status: updatedStatus.status,
+                },
+            };
+            const approved = await orderCollection.updateOne(
+                filter,
+                updateDoc,
+                options
+            );
+            // console.log(result);
+            res.json(approved);
+        });
+
+
 
     }
     finally{
